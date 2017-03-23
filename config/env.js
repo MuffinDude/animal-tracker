@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 
 // Grab NODE_ENV and REACT_APP_* environment variables and prepare them to be
@@ -36,3 +37,4 @@ function getClientEnvironment(publicUrl) {
 }
 
 module.exports = getClientEnvironment;
+/* eslint-enable */
