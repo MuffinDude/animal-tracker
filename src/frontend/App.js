@@ -6,7 +6,6 @@ import CreateAnimalForm from './createAnimalForm'
 import SearchAnimalForm from './searchAnimalForm'
 import './App.css'
 
-
 const App = () => (
   <Router>
     <div className="container-fluid">
