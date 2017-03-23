@@ -1,25 +1,23 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 import CreateAnimalForm from './createAnimalForm'
 import SearchAnimalForm from './searchAnimalForm'
-
 import './App.css'
+
 
 const App = () => (
   <Router>
-    <div className="App">
-      <Route path="/new" component={CreateAnimalForm} />
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-md-3">
+          <Route path="/new" component={CreateAnimalForm} />
+          <Route path="/search" component={SearchAnimalForm} />
+        </div>
+      </div>
     </div>
-
-    <p className="App-intro">
-      To get started, edit <code>src/App.js</code> and save to reload.
-    </p>
-    <CreateAnimalForm />
-    <p>Time to search: </p>
-    <SearchAnimalForm />
   </Router>
 )
-
 
 export default App
