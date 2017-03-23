@@ -11,17 +11,14 @@ const App = () => (
     <div className="App">
       <Route path="/new" component={CreateAnimalForm} />
     </div>
-<<<<<<< HEAD
+
     <p className="App-intro">
       To get started, edit <code>src/App.js</code> and save to reload.
     </p>
     <CreateAnimalForm />
     <p>Time to search: </p>
     <SearchAnimalForm />
-  </div>
-=======
   </Router>
->>>>>>> origin/master
 )
 
 
