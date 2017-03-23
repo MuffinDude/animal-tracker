@@ -1,1 +1,1 @@
-console.log('noku')
+console.log('')
