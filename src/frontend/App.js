@@ -11,8 +11,8 @@ const App = () => (
     <div className="container-fluid">
       <div className="row">
         <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-md-3">
-          <Route path="/new" component={CreateAnimalForm} />
-          <Route path="/search" component={SearchAnimalForm} />
+          <Route path="/new" component={() => (<CreateAnimalForm prop="katse" />)} />
+          <Route path="/search" component={() => (<SearchAnimalForm prop="katse" />)} />
         </div>
       </div>
     </div>
