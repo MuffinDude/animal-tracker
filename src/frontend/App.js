@@ -1,17 +1,17 @@
 import React from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import CreateAnimalForm from './createAnimalForm'
 import SearchAnimalForm from './searchAnimalForm'
 
-import logo from './logo.svg'
 import './App.css'
 
 const App = () => (
-  <div className="App">
-    <div className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h2>Welcome to React</h2>
+  <Router>
+    <div className="App">
+      <Route path="/new" component={CreateAnimalForm} />
     </div>
+<<<<<<< HEAD
     <p className="App-intro">
       To get started, edit <code>src/App.js</code> and save to reload.
     </p>
@@ -19,6 +19,9 @@ const App = () => (
     <p>Time to search: </p>
     <SearchAnimalForm />
   </div>
+=======
+  </Router>
+>>>>>>> origin/master
 )
 
 
