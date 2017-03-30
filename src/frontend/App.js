@@ -2,8 +2,8 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { connect } from 'react-redux'
-import CreateAnimalForm from './createAnimal'
-import SearchAnimalForm from './searchAnimal'
+import CreateAnimalForm from './animals/create'
+import SearchAnimalForm from './animals/search'
 import './App.css'
 
 const App = () => (

@@ -55,6 +55,7 @@ class Select extends Component {
       <div>
         <input
           type="text"
+          autoFocus
           className="dropdown-item form-control dropdown-search"
           placeholder="Otsi..."
           onClick={this.stopPropagation}
