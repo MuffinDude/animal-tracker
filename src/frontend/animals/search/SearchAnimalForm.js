@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import searchAnimals from './actions'
+import { searchAnimals } from '../actions'
 
 class SearchAnimalForm extends Component {
   constructor(props) {
@@ -13,7 +13,6 @@ class SearchAnimalForm extends Component {
 
   onInputChange(event) {
     this.props.searchAnimals()
-    console.log(this.props)
     this.setState({ inputValue: event.target.value })
   }
 
@@ -43,7 +42,7 @@ SearchAnimalForm.defaultProps = {
 }
 
 const mapStoreToProps = store => ({
-  animals: store.searchAnimals.animals,
+  animals: store.animals.animals,
 })
 
 const mapDispatchToProps = dispatch => ({

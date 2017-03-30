@@ -2,8 +2,8 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { connect } from 'react-redux'
-import CreateAnimalForm from './createAnimal'
-import SearchAnimalForm from './searchAnimal'
+import CreateAnimalForm from './animals/create'
+import SearchAnimalForm from './animals/search'
 import './App.css'
 
 const App = () => (
@@ -15,14 +15,16 @@ const App = () => (
             <h1>Animal Farm</h1>
             <div className="ml-auto">
               <Link className="mr-3" to="/">Home</Link>
-              <Link className="" to="/search">Search</Link>
+              <Link className="mr-3" to="/search">Search</Link>
+              <Link className="" to="/new">New</Link>
             </div>
           </div>
         </div>
       </div>
       <div className="row">
         <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-md-3">
-          <Route exact path="/" component={CreateAnimalForm} />
+          <Route exact path="/" component={() => (<h1>Yolo</h1>)} />
+          <Route path="/new" component={() => (<CreateAnimalForm />)} />
           <Route path="/search" component={() => (<SearchAnimalForm />)} />
         </div>
       </div>

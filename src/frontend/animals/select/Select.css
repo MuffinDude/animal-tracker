@@ -1,0 +1,33 @@
+.dropdown-menu {
+  display: block !important;
+  overflow: hidden;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  width: 100%;
+  position: absolute;
+  top: -2px;
+  box-shadow: 0 10px 18px rgba(0,0,0,.11), 0 4px 5px rgba(0,0,0,.08);
+  border: 1px solid #ccc;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem !important;
+}
+
+.caret {
+  margin-right: -0.5rem !important;
+}
+
+.dropdown-scrollable-list {
+  max-height: 15rem;
+  overflow-y: auto;
+}
+
+.dropdown-divider {
+  margin: 0 !important;
+  background-color: rgba(75, 75, 75, 0.2) !important;
+}
+
+.dropdown-search:active {
+  background-color: #f7f7f9;
+}

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import { reducer as searchAnimals } from './searchAnimal'
+import { reducer as animals } from './animals'
 
 export default combineReducers({
-  searchAnimals,
+  animals,
 })
