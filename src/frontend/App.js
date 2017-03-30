@@ -1,9 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-
-import CreateAnimalForm from './createAnimalForm'
-import SearchAnimalForm from './searchAnimalForm'
+import { connect } from 'react-redux'
+import CreateAnimalForm from './createAnimal'
+import SearchAnimalForm from './searchAnimal'
 import './App.css'
 
 const App = () => (
@@ -30,4 +30,4 @@ const App = () => (
   </Router>
 )
 
-export default App
+export default connect(value => value)(App)

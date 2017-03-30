@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 
 import './CreateAnimalForm.css'
 
@@ -15,11 +15,10 @@ class CreateAnimalForm extends Component {
     return (
       <div>
         <textarea onChange={this.changeProperty} />
-        CreateAnimalForm{ this.props.prop }{ this.state.property }
+        CreateAnimalForm { this.state.property }
       </div>
     )
   }
 }
-CreateAnimalForm.propTypes = { prop: PropTypes.string.isRequired }
 
 export default CreateAnimalForm
