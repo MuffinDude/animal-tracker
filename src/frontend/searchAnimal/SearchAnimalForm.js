@@ -13,7 +13,6 @@ class SearchAnimalForm extends Component {
 
   onInputChange(event) {
     this.props.searchAnimals()
-    console.log(this.props)
     this.setState({ inputValue: event.target.value })
   }
 

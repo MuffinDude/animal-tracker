@@ -1,7 +1,5 @@
 import ApiService from '../services/api'
 
-console.log(ApiService)
-
 export const SEARCH_ANIMALS_RESULT = 'SEARCH_ANIMALS_RESULT'
 
 export default function searchAnimals() {

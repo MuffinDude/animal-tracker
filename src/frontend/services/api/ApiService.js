@@ -21,7 +21,6 @@ export function getSpeciesById(id) {
 }
 
 export function getAllSpecies() {
-  console.log('is calld')
   return fetch('/api/v1/species', {
     method: GET,
     headers,
