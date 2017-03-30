@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import searchAnimals from '../actions'
+import { searchAnimals } from '../actions'
 
 class SearchAnimalForm extends Component {
   constructor(props) {
@@ -42,7 +42,7 @@ SearchAnimalForm.defaultProps = {
 }
 
 const mapStoreToProps = store => ({
-  animals: store.searchAnimals.animals,
+  animals: store.animals.animals,
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -26,6 +26,7 @@ class Select extends Component {
 
   onChange(event) {
     this.setState({ query: event.target.value })
+    this.props.onChange(event.target.value)
   }
 
   onButtonClick(event) {
@@ -35,6 +36,7 @@ class Select extends Component {
 
   onOptionClick(event, selectedOptionKey) {
     this.stopPropagation(event)
+    this.setState({ open: !this.state.open })
     this.props.onChange(selectedOptionKey)
   }
 
@@ -113,7 +115,7 @@ class Select extends Component {
             <div className={`dropdown-menu ${open ? 'show' : ''} mb-5`} role="menu">
               {this.renderSearchBox()}
               <div className="dropdown-scrollable-list">
-                {this.props.isNoneValueAllowed ? noneValue : ''}
+                {this.props.noneValueIsAllowed ? noneValue : ''}
                 {this.renderOptions()}
               </div>
             </div>
@@ -128,11 +130,11 @@ Select.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  isNoneValueAllowed: PropTypes.bool,
+  noneValueIsAllowed: PropTypes.bool,
 }
 
 Select.defaultProps = {
-  isNoneValueAllowed: true,
+  noneValueIsAllowed: false,
 }
 
 export default Select
