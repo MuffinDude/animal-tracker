@@ -59,7 +59,7 @@ class Select extends Component {
           type="text"
           autoFocus
           className="dropdown-item form-control dropdown-search"
-          placeholder="Otsi..."
+          placeholder="Search or insert new..."
           onClick={this.stopPropagation}
           onChange={this.onChange}
           value={this.state.query}
