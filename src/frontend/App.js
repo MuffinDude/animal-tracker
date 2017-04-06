@@ -10,7 +10,7 @@ const App = () => (
   <Router>
     <div className="container-fluid py-5">
       <div className="row">
-        <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-md-3">
+        <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
           <div className="d-flex justify-content-space-between">
             <h1>Animal Farm</h1>
             <div className="ml-auto">
@@ -22,7 +22,7 @@ const App = () => (
         </div>
       </div>
       <div className="row">
-        <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-md-3">
+        <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
           <Route exact path="/" component={() => (<h1>Yolo</h1>)} />
           <Route path="/new" component={() => (<CreateAnimalForm />)} />
           <Route path="/search" component={() => (<SearchAnimalForm />)} />
