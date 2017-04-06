@@ -11,3 +11,7 @@ export function findByName(name) {
 export function findAllSpecies() {
   return database('species')
 }
+
+export function createNewSpecies(name) {
+  return database('species').returning('*').insert({ name })
+}
