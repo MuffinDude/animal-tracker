@@ -1,7 +1,7 @@
 exports.up = knex => (
   knex.raw(`
     CREATE TABLE IF NOT EXISTS animals (
-      id SMALLINT UNIQUE,
+      id SERIAL UNIQUE,
       name VARCHAR(255) NOT NULL,
       location VARCHAR(255),
       species_id INTEGER NOT NULL,
