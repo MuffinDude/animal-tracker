@@ -34,3 +34,10 @@ export function createNewAnimal({ name, location, time, speciesId }) {
     body: JSON.stringify({ name, location, time, speciesId }),
   }).then(checkStatus).then(response => response.json())
 }
+
+export function getAllAnimals() {
+  return fetch('/api/v1/animals', {
+    method: GET,
+    headers,
+  }).then(checkStatus).then(response => response.json())
+}
