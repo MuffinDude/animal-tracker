@@ -18,5 +18,5 @@ exports.up = knex => (
 )
 
 exports.down = knex => (
-  knex.raw('DROP TABLE IF EXISTS languages CASCADE')
+  knex.raw('DROP TABLE IF EXISTS animals CASCADE')
 )

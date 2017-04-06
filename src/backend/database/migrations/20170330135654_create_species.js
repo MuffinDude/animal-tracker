@@ -4,6 +4,10 @@ exports.up = knex => (
       id SERIAL UNIQUE,
       name VARCHAR(255) NOT NULL
     );
+
+    ALTER TABLE species ADD CONSTRAINT PK_species_id
+      PRIMARY KEY (id)
+    ;
   `)
 )
 
