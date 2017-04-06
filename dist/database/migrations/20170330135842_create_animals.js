@@ -5,5 +5,5 @@ exports.up = function (knex) {
 };
 
 exports.down = function (knex) {
-  return knex.raw('DROP TABLE IF EXISTS languages CASCADE');
+  return knex.raw('DROP TABLE IF EXISTS animals CASCADE');
 };

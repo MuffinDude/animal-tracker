@@ -11,9 +11,9 @@ class ModificationForm extends Component {
     this.onTimeChange = this.onTimeChange.bind(this)
     this.onAnimalNameChange = this.onAnimalNameChange.bind(this)
     this.onAnimalLocationChange = this.onAnimalLocationChange.bind(this)
-
+    this.onSubmit = this.onSubmit.bind(this)
     this.state = {
-      selectedSpecies: '',
+      selectedSpecies: null,
       timeError: false,
       animalName: '',
       animalNameError: false,
@@ -23,8 +23,14 @@ class ModificationForm extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (!this.props.species) this.props.getAllSpecies()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.selectedSpecies && nextProps.species) {
+      this.setState({ selectedSpecies: nextProps.species[0].name })
+    }
   }
 
   onTimeChange(event) {
@@ -51,6 +57,16 @@ class ModificationForm extends Component {
     this.setState({ animalLocation: event.target.value, animalLocationError })
   }
 
+  onSubmit(event) {
+    event.preventDefault()
+    this.props.onSubmit({
+      name: this.state.animalName,
+      species: this.state.selectedSpecies,
+      location: this.state.animalLocation,
+      time: this.state.sightingTime,
+    })
+  }
+
   render() {
     const { species } = this.props
     const {
@@ -60,7 +76,6 @@ class ModificationForm extends Component {
       animalNameError,
       animalLocation,
       animalLocationError,
-      sightingTime,
     } = this.state
     return (
       <div>
@@ -108,12 +123,7 @@ class ModificationForm extends Component {
           <button
             type="submit"
             className="btn btn-primary"
-            onClick={() => this.props.onSubmit({
-              name: animalName,
-              species: selectedSpecies,
-              location: animalLocation,
-              time: sightingTime,
-            })}
+            onClick={this.onSubmit}
           >
               Submit
             </button>
