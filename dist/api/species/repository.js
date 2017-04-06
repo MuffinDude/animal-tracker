@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.findById = findById;
 exports.findByName = findByName;
 exports.findAllSpecies = findAllSpecies;
+exports.createNewSpecies = createNewSpecies;
 
 var _database = require('../../database');
 
@@ -23,4 +24,8 @@ function findByName(name) {
 
 function findAllSpecies() {
   return (0, _database2.default)('species');
+}
+
+function createNewSpecies(name) {
+  return (0, _database2.default)('species').returning('*').insert({ name: name });
 }

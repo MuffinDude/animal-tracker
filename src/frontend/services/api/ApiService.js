@@ -1,7 +1,7 @@
 import 'whatwg-fetch'
 
 const GET = 'GET'
-// const POST = 'POST'
+const POST = 'POST'
 const headers = { 'Content-Type': 'application/json' }
 
 function checkStatus(response) {
@@ -24,5 +24,13 @@ export function getAllSpecies() {
   return fetch('/api/v1/species', {
     method: GET,
     headers,
+  }).then(checkStatus).then(response => response.json())
+}
+
+export function createNewAnimal({ name, location, time, speciesId }) {
+  return fetch('/api/v1/species', {
+    method: POST,
+    headers,
+    body: JSON.stringify({ name, location, time, speciesId }),
   }).then(checkStatus).then(response => response.json())
 }

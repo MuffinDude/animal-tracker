@@ -1,12 +1,12 @@
 import { Router } from 'express'
 
-import { findById, findAllSpecies, createNewSpecies } from './repository'
+import { findById, findAllAnimals } from './repository'
 
 const router = new Router()
 
 router.get('/', (request, response) => {
-  findAllSpecies()
-    .then(species => response.status(200).json(species))
+  findAllAnimals()
+    .then(animals => response.status(200).json(animals))
     .catch((error) => {
       console.log(error) // eslint-disable-line
       response.status(500).send()
@@ -15,7 +15,7 @@ router.get('/', (request, response) => {
 
 router.get('/:id', (request, response) => {
   findById(request.params.id)
-    .then(species => response.status(200).json(species))
+    .then(animal => response.status(200).json(animal))
     .catch((error) => {
       console.log(error) // eslint-disable-line
       response.status(500).send()
@@ -23,12 +23,7 @@ router.get('/:id', (request, response) => {
 })
 
 router.post('/new', (request, response) => {
-  createNewSpecies(request.body.name)
-    .then(entry => response.status(200).json(entry))
-    .catch((error) => {
-      console.log(error) // eslint-disable-line
-      response.status(500).send()
-    })
+  console.log(response.body)
 })
 
 export default router
