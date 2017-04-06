@@ -60,6 +60,7 @@ class ModificationForm extends Component {
       animalNameError,
       animalLocation,
       animalLocationError,
+      sightingTime,
     } = this.state
     return (
       <div>
