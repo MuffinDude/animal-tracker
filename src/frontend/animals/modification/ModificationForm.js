@@ -25,8 +25,9 @@ class ModificationForm extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.props.species) this.props.getAllSpecies()
+    else this.setState({ selectedSpecies: this.props.species[0].name }) // eslint-disable-line
   }
 
   componentWillReceiveProps(nextProps) {
@@ -169,6 +170,11 @@ class ModificationForm extends Component {
           {this.props.isCreatingAnimal ? (
             <div className="alert alert-info">
               Creating animal...
+            </div>
+          ) : ''}
+          {this.props.error ? (
+            <div className="alert alert-danger">
+              {this.props.error}
             </div>
           ) : ''}
           <button

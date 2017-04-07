@@ -9,6 +9,7 @@ import {
 
 const initialState = {
   isFetching: false,
+  isCreatingAnimal: false,
   error: null,
   species: null,
   animals: null,
@@ -45,6 +46,7 @@ export default function animals(state = initialState, result) {
         ...state,
         error: result.error,
         isFetching: false,
+        isCreatingAnimal: false,
       }
     }
     case IS_FETCHING: {

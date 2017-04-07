@@ -30,6 +30,8 @@ export function createNewAnimal(data) {
     dispatch({ type: IS_CREATING_ANIMAL })
     ApiService.createNewAnimal(data)
       .then(animal => dispatch({ type: CREATED_NEW_ANIMAL, animal }))
-      .catch(error => dispatch({ type: ERROR, error }))
+      .catch((error) => {
+        dispatch({ type: ERROR, error: error.response.status })
+      })
   }
 }
