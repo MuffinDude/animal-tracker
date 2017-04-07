@@ -28,7 +28,7 @@ export function getAllSpecies() {
 }
 
 export function createNewAnimal({ name, location, time, species }) {
-  return fetch('/api/v1/animals/new', {
+  return fetch('/api/v1/animals', {
     method: POST,
     headers,
     body: JSON.stringify({ name, location, time, species }),

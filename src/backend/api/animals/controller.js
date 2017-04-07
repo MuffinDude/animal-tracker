@@ -23,7 +23,7 @@ router.get('/:id', (request, response) => {
     })
 })
 
-router.post('/new', (request, response) => {
+router.post('/', (request, response) => {
   const animal = request.body
   speciesRepository.findByName(animal.species)
     .then((species) => {

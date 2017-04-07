@@ -22,7 +22,7 @@ router.get('/:id', (request, response) => {
     })
 })
 
-router.post('/new', (request, response) => {
+router.post('/', (request, response) => {
   createNewSpecies(request.body.name)
     .then(entry => response.status(200).json(entry))
     .catch((error) => {
