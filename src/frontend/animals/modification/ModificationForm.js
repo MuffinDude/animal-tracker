@@ -19,7 +19,9 @@ class ModificationForm extends Component {
       animalNameError: false,
       animalLocation: '',
       animalLocationError: false,
-      sightingTime: null,
+      sightingTime: new Date().toISOString().substr(0, 16),
+      submitError: false,
+      success: false,
     }
   }
 
@@ -29,7 +31,14 @@ class ModificationForm extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!this.state.selectedSpecies && nextProps.species) {
-      this.setState({ selectedSpecies: nextProps.species[0].name })
+      this.setState({ selectedSpecies: nextProps.species[0].name, submitError: false })
+    }
+    if (this.props.isCreatingAnimal && !nextProps.isCreatingAnimal) {
+      if (nextProps.error) {
+        this.setState({ success: false })
+      } else {
+        this.setState({ success: true })
+      }
     }
   }
 
@@ -41,41 +50,68 @@ class ModificationForm extends Component {
       timeInMilliseconds > maxTimeInMilliseconds ||
       timeInMilliseconds < minTimeInMilliseconds
     ) {
-      this.setState({ timeError: true })
+      this.setState({ timeError: true, submitError: false, success: false })
     } else {
-      this.setState({ timeError: false, sightingTime: timeInMilliseconds })
+      this.setState({
+        timeError: false,
+        sightingTime:
+        timeInMilliseconds,
+        submitError: false,
+        success: false,
+      })
     }
   }
 
   onAnimalNameChange(event) {
     const animalNameError = event.target.value === ''
-    this.setState({ animalName: event.target.value, animalNameError })
+    this.setState({
+      animalName: event.target.value,
+      animalNameError,
+      submitError: false,
+      success: false,
+    })
   }
 
   onAnimalLocationChange(event) {
     const animalLocationError = event.target.value === ''
-    this.setState({ animalLocation: event.target.value, animalLocationError })
+    this.setState({
+      animalLocation: event.target.value,
+      animalLocationError,
+      submitError: false,
+      success: false,
+    })
   }
 
   onSubmit(event) {
     event.preventDefault()
-    this.props.onSubmit({
-      name: this.state.animalName,
-      species: this.state.selectedSpecies,
-      location: this.state.animalLocation,
-      time: this.state.sightingTime,
-    })
+    this.setState({ success: false })
+    const { timeError, animalNameError, animalLocationError } = this.state
+    const { animalName, animalLocation, sightingTime } = this.state
+    const hasError = timeError || animalNameError || animalLocationError
+
+    if (!hasError && animalName.length && animalLocation.length) {
+      this.props.onSubmit({
+        name: animalName,
+        species: this.state.selectedSpecies,
+        location: animalLocation,
+        time: sightingTime,
+      })
+    } else {
+      this.setState({ submitError: true })
+    }
   }
 
   render() {
     const { species } = this.props
     const {
+      submitError,
       selectedSpecies,
       timeError,
       animalName,
       animalNameError,
       animalLocation,
       animalLocationError,
+      success,
     } = this.state
     return (
       <div>
@@ -120,8 +156,24 @@ class ModificationForm extends Component {
               onChange={this.onTimeChange}
             />
           </div>
+          {submitError ? (
+            <div className="alert alert-warning">
+              You have not filled the form
+            </div>
+          ) : ''}
+          {success ? (
+            <div className="alert alert-success">
+              Created new animal!
+            </div>
+          ) : ''}
+          {this.props.isCreatingAnimal ? (
+            <div className="alert alert-info">
+              Creating animal...
+            </div>
+          ) : ''}
           <button
             type="submit"
+            disabled={submitError}
             className="btn btn-primary"
             onClick={this.onSubmit}
           >
@@ -137,14 +189,19 @@ ModificationForm.propTypes = {
   getAllSpecies: PropTypes.func.isRequired,
   species: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })),
   onSubmit: PropTypes.func.isRequired,
+  error: PropTypes.number, // eslint-disable-line
+  isCreatingAnimal: PropTypes.bool.isRequired,
 }
 
 ModificationForm.defaultProps = {
   species: null,
+  error: null,
 }
 
 const mapStoreToProps = store => ({
   species: store.animals.species,
+  isCreatingAnimal: store.animals.isCreatingAnimal,
+  error: store.animals.error,
 })
 
 const mapDispatchToProps = dispatch => ({

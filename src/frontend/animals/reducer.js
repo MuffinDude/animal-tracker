@@ -1,6 +1,14 @@
-import { SEARCH_ANIMALS_RESULT, ANIMALS_SPECIES_RESULT, ERROR } from './actions'
+import {
+  SEARCH_ANIMALS_RESULT,
+  ANIMALS_SPECIES_RESULT,
+  CREATED_NEW_ANIMAL,
+  ERROR,
+  IS_FETCHING,
+  IS_CREATING_ANIMAL,
+} from './actions'
 
 const initialState = {
+  isFetching: false,
   error: null,
   species: null,
   animals: null,
@@ -13,6 +21,7 @@ export default function animals(state = initialState, result) {
         ...state,
         error: null,
         animals: result.animals,
+        isFetching: false,
       }
     }
     case ANIMALS_SPECIES_RESULT: {
@@ -20,12 +29,34 @@ export default function animals(state = initialState, result) {
         ...state,
         error: null,
         species: result.species,
+        isFetching: false,
+      }
+    }
+    case CREATED_NEW_ANIMAL: {
+      return {
+        ...state,
+        error: null,
+        animals: state.animals ? state.animals.concat([result.animal]) : [result.animal],
+        isCreatingAnimal: false,
       }
     }
     case ERROR: {
       return {
         ...state,
         error: result.error,
+        isFetching: false,
+      }
+    }
+    case IS_FETCHING: {
+      return {
+        ...state,
+        isFetching: true,
+      }
+    }
+    case IS_CREATING_ANIMAL: {
+      return {
+        ...state,
+        isCreatingAnimal: true,
       }
     }
     default:
