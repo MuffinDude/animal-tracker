@@ -5,7 +5,9 @@ export function findById(id) {
 }
 
 export function findAllAnimals() {
-  return database('animals')
+  return database.select('animals.*', 'species.name as species_name')
+    .from('animals')
+    .innerJoin('species', 'animals.species_id', 'species.id')
 }
 
 export function createNewAnimal({ name, location, speciesId, time }) {

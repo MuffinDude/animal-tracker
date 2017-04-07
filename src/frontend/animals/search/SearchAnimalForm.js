@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { searchAnimals } from '../actions'
+import { getAllAnimals } from '../actions'
 
 class SearchAnimalForm extends Component {
   constructor(props) {
@@ -11,29 +11,34 @@ class SearchAnimalForm extends Component {
     }
   }
 
+  componentDidMount() {
+    if (!this.props.animals) this.props.getAllAnimals()
+  }
+
   onInputChange(event) {
-    this.props.searchAnimals()
     this.setState({ inputValue: event.target.value })
   }
 
   render() {
-    const { inputValue } = this.state
     return (
       <div>
-        {inputValue}
+        <div>
+          <input
+            placeholder="Enter a name..."
+          />
+        </div>
         {this.props.animals ? this.props.animals.map(animal => (
-          <div key={animal.name}>{animal.name}</div>
+          <div key={animal.name}>
+            {animal.name} {animal.location} {animal.species_name}
+          </div>
         )) : ''}
-        <input
-          onChange={this.onInputChange}
-        />
       </div>
     )
   }
 }
 
 SearchAnimalForm.propTypes = {
-  searchAnimals: PropTypes.func.isRequired,
+  getAllAnimals: PropTypes.func.isRequired,
   animals: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })),
 }
 
@@ -46,7 +51,7 @@ const mapStoreToProps = store => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  searchAnimals: () => dispatch(searchAnimals()),
+  getAllAnimals: () => dispatch(getAllAnimals()),
 })
 
 export default connect(mapStoreToProps, mapDispatchToProps)(SearchAnimalForm)
