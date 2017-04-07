@@ -9,3 +9,12 @@ export function findAllAnimals() {
     .from('animals')
     .innerJoin('species', 'animals.species_id', 'species.id')
 }
+
+export function createNewAnimal({ name, location, speciesId, time }) {
+  return database('animals').returning('*').insert({
+    name,
+    location,
+    species_id: speciesId,
+    seen_at: time,
+  })
+}

@@ -1,13 +1,19 @@
-import React, { Component } from 'react'
+import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 
 import ModificationForm from '../modification'
+import { actions } from '../'
 
-class CreateAnimalForm extends Component { // eslint-disable-line
-  render() {
-    return (
-      <ModificationForm onSubmit={data => console.log(data)} />
-    )
-  }
+const CreateAnimalForm = ({ createNewAnimal }) => (
+  <ModificationForm onSubmit={createNewAnimal} />
+)
+
+CreateAnimalForm.propTypes = {
+  createNewAnimal: PropTypes.func.isRequired,
 }
 
-export default CreateAnimalForm
+const mapDispatchToProps = dispatch => ({
+  createNewAnimal: animal => dispatch(actions.createNewAnimal(animal)),
+})
+
+export default connect(value => value, mapDispatchToProps)(CreateAnimalForm)

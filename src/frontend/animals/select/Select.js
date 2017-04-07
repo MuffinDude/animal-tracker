@@ -129,12 +129,13 @@ class Select extends Component {
 Select.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   noneValueIsAllowed: PropTypes.bool,
 }
 
 Select.defaultProps = {
   noneValueIsAllowed: false,
+  value: null,
 }
 
 export default Select

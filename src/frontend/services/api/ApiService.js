@@ -27,11 +27,11 @@ export function getAllSpecies() {
   }).then(checkStatus).then(response => response.json())
 }
 
-export function createNewAnimal({ name, location, time, speciesId }) {
-  return fetch('/api/v1/species', {
+export function createNewAnimal({ name, location, time, species }) {
+  return fetch('/api/v1/animals/new', {
     method: POST,
     headers,
-    body: JSON.stringify({ name, location, time, speciesId }),
+    body: JSON.stringify({ name, location, time, species }),
   }).then(checkStatus).then(response => response.json())
 }
 

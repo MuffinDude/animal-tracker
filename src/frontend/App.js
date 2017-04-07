@@ -23,9 +23,8 @@ const App = () => (
       </div>
       <div className="row">
         <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
-          <Route exact path="/" component={() => (<h1>Yolo</h1>)} />
-          <Route path="/new" component={() => (<CreateAnimalForm />)} />
-          <Route path="/search" component={() => (<SearchAnimalForm />)} />
+          <Route path="/new" component={CreateAnimalForm} />
+          <Route path="/search" component={SearchAnimalForm} />
         </div>
       </div>
     </div>
