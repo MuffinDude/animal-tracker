@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { getAllAnimals } from '../actions'
+import './SearchAnimalForm.css'
 
 class SearchAnimalForm extends Component {
   constructor(props) {
@@ -22,16 +23,30 @@ class SearchAnimalForm extends Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="container">
           <input
+            type="text"
             placeholder="Enter a name..."
           />
         </div>
-        {this.props.animals ? this.props.animals.map(animal => (
-          <div key={animal.name}>
-            {animal.name} {animal.location} {animal.species_name}
-          </div>
-        )) : ''}
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Location</th>
+              <th>species</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.animals ? this.props.animals.map(animal => (
+              <tr key={animal.name}>
+                <td>{animal.name}</td>
+                <td>{animal.location}</td>
+                <td>{animal.species_name}</td>
+              </tr>
+            )) : ''}
+          </tbody>
+        </table>
       </div>
     )
   }

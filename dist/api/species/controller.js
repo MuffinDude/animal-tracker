@@ -28,7 +28,7 @@ router.get('/:id', function (request, response) {
   });
 });
 
-router.post('/new', function (request, response) {
+router.post('/', function (request, response) {
   (0, _repository.createNewSpecies)(request.body.name).then(function (entry) {
     return response.status(200).json(entry);
   }).catch(function (error) {
