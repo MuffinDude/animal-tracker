@@ -6,7 +6,8 @@ exports.up = knex => (
       location VARCHAR(255),
       species_id INTEGER NOT NULL,
       seen_at TIMESTAMP,
-      created_at TIMESTAMP NOT NULL DEFAULT LOCALTIMESTAMP
+      created_at TIMESTAMP NOT NULL DEFAULT LOCALTIMESTAMP,
+      visible BOOLEAN DEFAULT TRUE
     );
 
     ALTER TABLE animals ADD CONSTRAINT FK_animals_species_id

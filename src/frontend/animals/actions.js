@@ -3,6 +3,7 @@ import ApiService from '../services/api'
 export const SEARCH_ANIMALS_RESULT = 'SEARCH_ANIMALS_RESULT'
 export const ANIMALS_SPECIES_RESULT = 'ANIMALS_SPECIES_RESULT'
 export const CREATED_NEW_ANIMAL = 'CREATED_NEW_ANIMAL'
+export const REMOVE_ANIMAL = 'REMOVE_ANIMAL'
 export const IS_FETCHING = 'IS_FETCHING'
 export const IS_CREATING_ANIMAL = 'IS_CREATING_ANIMAL'
 export const ERROR = 'ERROR'
@@ -33,5 +34,16 @@ export function createNewAnimal(data) {
       .catch((error) => {
         dispatch({ type: ERROR, error: error.response.status })
       })
+  }
+}
+
+export function removeAnimal(id) {
+  return (dispatch) => {
+    dispatch({ type: IS_FETCHING })
+    ApiService.removeAnimal(id)
+    .then(animal => dispatch({ type: REMOVE_ANIMAL, animal }))
+    .catch((error) => {
+      dispatch({ type: ERROR, error: error.response.status })
+    })
   }
 }

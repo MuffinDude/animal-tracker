@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { getAllAnimals } from '../actions'
+import { getAllAnimals, removeAnimal } from '../actions'
 import './SearchAnimalForm.css'
 
 class SearchAnimalForm extends Component {
@@ -26,27 +26,36 @@ class SearchAnimalForm extends Component {
         <div className="container">
           <input
             type="text"
-            placeholder="Enter a name..."
+            placeholder="Search by name..."
           />
         </div>
-        <table className="table table-hover">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Location</th>
-              <th>species</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className="container">
+          <div className="card-columns">
             {this.props.animals ? this.props.animals.map(animal => (
-              <tr key={animal.name}>
-                <td>{animal.name}</td>
-                <td>{animal.location}</td>
-                <td>{animal.species_name}</td>
-              </tr>
+              <div className="card" key={animal.id}>
+                <div className="card-block">
+                  <h4 className="card-title">{animal.name}</h4>
+                  <p>Species: {animal.species_name}</p>
+                  <p>Location: {animal.location}</p>
+                  <p>Last seen: {animal.seen_at}</p>
+                  <button
+                    className="btn btn-outline-danger"
+                    type="button"
+                    onClick={() => this.props.removeAnimal(animal.id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="btn btn-outline-info"
+                    type="button"
+                  >
+                    Modify
+                  </button>
+                </div>
+              </div>
             )) : ''}
-          </tbody>
-        </table>
+          </div>
+        </div>
       </div>
     )
   }
@@ -55,6 +64,7 @@ class SearchAnimalForm extends Component {
 SearchAnimalForm.propTypes = {
   getAllAnimals: PropTypes.func.isRequired,
   animals: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })),
+  removeAnimal: PropTypes.func.isRequired,
 }
 
 SearchAnimalForm.defaultProps = {
@@ -67,6 +77,7 @@ const mapStoreToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   getAllAnimals: () => dispatch(getAllAnimals()),
+  removeAnimal: id => dispatch(removeAnimal(id)),
 })
 
 export default connect(mapStoreToProps, mapDispatchToProps)(SearchAnimalForm)

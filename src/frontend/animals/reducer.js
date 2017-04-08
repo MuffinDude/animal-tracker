@@ -1,6 +1,7 @@
 import {
   SEARCH_ANIMALS_RESULT,
   ANIMALS_SPECIES_RESULT,
+  REMOVE_ANIMAL,
   CREATED_NEW_ANIMAL,
   ERROR,
   IS_FETCHING,
@@ -10,6 +11,7 @@ import {
 const initialState = {
   isFetching: false,
   isCreatingAnimal: false,
+  isRemovingAnimal: false,
   error: null,
   species: null,
   animals: null,
@@ -39,6 +41,14 @@ export default function animals(state = initialState, result) {
         error: null,
         animals: state.animals ? state.animals.concat([result.animal]) : [result.animal],
         isCreatingAnimal: false,
+      }
+    }
+    case REMOVE_ANIMAL: {
+      return {
+        ...state,
+        error: null,
+        animals: state.animals.filter(animal => animal.id !== result.animal.id),
+        isFetching: false,
       }
     }
     case ERROR: {

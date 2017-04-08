@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { findById, findAllAnimals, createNewAnimal } from './repository'
+import { findById, findAllAnimals, createNewAnimal, removeAnimal } from './repository'
 import { repository as speciesRepository } from '../species'
 
 const router = new Router()
@@ -8,6 +8,15 @@ const router = new Router()
 router.get('/', (request, response) => {
   findAllAnimals()
     .then(animals => response.status(200).json(animals))
+    .catch((error) => {
+      console.log(error) // eslint-disable-line
+      response.status(500).send()
+    })
+})
+
+router.delete('/:id', (request, response) => {
+  removeAnimal(request.params.id)
+    .then(removedAnimal => response.status(200).json(removedAnimal))
     .catch((error) => {
       console.log(error) // eslint-disable-line
       response.status(500).send()
@@ -34,7 +43,7 @@ router.post('/', (request, response) => {
           time: animal.time,
           speciesId: species.id,
         })
-          .then(newAnimals => response.status(200).json(newAnimals[0]))
+          .then(newAnimal => response.status(200).json(newAnimal))
           .catch((error) => {
             console.log(error) // eslint-disable-line
             response.status(500).send()
@@ -48,7 +57,7 @@ router.post('/', (request, response) => {
             time: animal.time,
             speciesId: newSpecies[0].id,
           })
-            .then(newAnimals => response.status(200).json(newAnimals[0]))
+            .then(newAnimal => response.status(200).json(newAnimal))
             .catch((error) => {
               console.log(error) // eslint-disable-line
               response.status(500).send()

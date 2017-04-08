@@ -2,6 +2,7 @@ import 'whatwg-fetch'
 
 const GET = 'GET'
 const POST = 'POST'
+const DELETE = 'DELETE'
 const headers = { 'Content-Type': 'application/json' }
 
 function checkStatus(response) {
@@ -38,6 +39,13 @@ export function createNewAnimal({ name, location, time, species }) {
 export function getAllAnimals() {
   return fetch('/api/v1/animals', {
     method: GET,
+    headers,
+  }).then(checkStatus).then(response => response.json())
+}
+
+export function removeAnimal(id) {
+  return fetch(`/api/v1/animals/${id}`, {
+    method: DELETE,
     headers,
   }).then(checkStatus).then(response => response.json())
 }
