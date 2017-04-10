@@ -17,6 +17,7 @@ exports.seed = (knex, Promise) => (
         name: 'Snipachu',
         location: 'tallinn',
         species_id: 2,
+        visible: false,
       }),
       knex('animals').insert({
         name: 'Tõnu',

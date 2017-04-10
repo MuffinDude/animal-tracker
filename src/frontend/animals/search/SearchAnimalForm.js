@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { getAllAnimals } from '../actions'
+import { getAllAnimals, removeAnimal } from '../actions'
+import './SearchAnimalForm.css'
+import ListItem from './listItem'
 
 class SearchAnimalForm extends Component {
   constructor(props) {
@@ -22,16 +24,29 @@ class SearchAnimalForm extends Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="container p-3">
           <input
-            placeholder="Enter a name..."
+            type="text"
+            placeholder="Search..."
+            onChange={event => this.setState({ inputValue: event.target.value })}
           />
         </div>
-        {this.props.animals ? this.props.animals.map(animal => (
-          <div key={animal.name}>
-            {animal.name} {animal.location} {animal.species_name}
+        <div className="container">
+          <div>
+            {this.props.animals ? this.props.animals
+              .filter(animal => animal.name.includes(this.state.inputValue) ||
+                animal.location.includes(this.state.inputValue) ||
+                animal.species_name.includes(this.state.inputValue) ||
+                animal.seen_at.includes(this.state.inputValue))
+              .map(animal => (
+                <ListItem
+                  key={animal.id}
+                  animal={animal}
+                  removeAnimal={this.props.removeAnimal}
+                />
+            )) : ''}
           </div>
-        )) : ''}
+        </div>
       </div>
     )
   }
@@ -40,6 +55,7 @@ class SearchAnimalForm extends Component {
 SearchAnimalForm.propTypes = {
   getAllAnimals: PropTypes.func.isRequired,
   animals: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })),
+  removeAnimal: PropTypes.func.isRequired,
 }
 
 SearchAnimalForm.defaultProps = {
@@ -52,6 +68,7 @@ const mapStoreToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   getAllAnimals: () => dispatch(getAllAnimals()),
+  removeAnimal: id => dispatch(removeAnimal(id)),
 })
 
 export default connect(mapStoreToProps, mapDispatchToProps)(SearchAnimalForm)

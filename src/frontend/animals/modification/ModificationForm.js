@@ -13,13 +13,14 @@ class ModificationForm extends Component {
     this.onAnimalLocationChange = this.onAnimalLocationChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.state = {
-      selectedSpecies: null,
+      selectedSpecies: this.props.animalSpecies,
       timeError: false,
-      animalName: '',
+      animalName: this.props.animalName,
       animalNameError: false,
-      animalLocation: '',
+      animalId: this.props.animalId,
+      animalLocation: this.props.animalLocation,
       animalLocationError: false,
-      sightingTime: new Date().toISOString().substr(0, 16),
+      sightingTime: this.props.animalLastSeen || new Date().toISOString().substr(0, 16),
       submitError: false,
       success: false,
     }
@@ -87,7 +88,7 @@ class ModificationForm extends Component {
     event.preventDefault()
     this.setState({ success: false })
     const { timeError, animalNameError, animalLocationError } = this.state
-    const { animalName, animalLocation, sightingTime } = this.state
+    const { animalName, animalLocation, sightingTime, animalId } = this.state
     const hasError = timeError || animalNameError || animalLocationError
 
     if (!hasError && animalName.length && animalLocation.length) {
@@ -96,6 +97,7 @@ class ModificationForm extends Component {
         species: this.state.selectedSpecies,
         location: animalLocation,
         time: sightingTime,
+        id: animalId,
       })
     } else {
       this.setState({ submitError: true })
@@ -153,7 +155,7 @@ class ModificationForm extends Component {
               type="datetime-local"
               className={`form-control ${timeError ? 'has-warning' : ''}`}
               id="timeInput"
-              defaultValue={new Date().toISOString().substr(0, 16)}
+              defaultValue={this.state.sightingTime}
               onChange={this.onTimeChange}
             />
           </div>
@@ -183,8 +185,8 @@ class ModificationForm extends Component {
             className="btn btn-primary"
             onClick={this.onSubmit}
           >
-              Submit
-            </button>
+            Submit
+          </button>
         </form>
       </div>
     )
@@ -197,11 +199,21 @@ ModificationForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   error: PropTypes.number, // eslint-disable-line
   isCreatingAnimal: PropTypes.bool.isRequired,
+  animalName: PropTypes.string,
+  animalId: PropTypes.number,
+  animalSpecies: PropTypes.string,
+  animalLocation: PropTypes.string,
+  animalLastSeen: PropTypes.string,
 }
 
 ModificationForm.defaultProps = {
   species: null,
   error: null,
+  animalName: '',
+  animalId: null,
+  animalSpecies: null,
+  animalLocation: '',
+  animalLastSeen: null,
 }
 
 const mapStoreToProps = store => ({
