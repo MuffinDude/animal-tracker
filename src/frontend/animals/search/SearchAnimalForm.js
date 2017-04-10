@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { getAllAnimals, removeAnimal } from '../actions'
 import './SearchAnimalForm.css'
+import ListItem from './listItem'
 
 class SearchAnimalForm extends Component {
   constructor(props) {
@@ -23,36 +24,26 @@ class SearchAnimalForm extends Component {
   render() {
     return (
       <div>
-        <div className="container">
+        <div className="container p-3">
           <input
             type="text"
-            placeholder="Search by name..."
+            placeholder="Search..."
+            onChange={event => this.setState({ inputValue: event.target.value })}
           />
         </div>
         <div className="container">
-          <div className="card-columns">
-            {this.props.animals ? this.props.animals.map(animal => (
-              <div className="card" key={animal.id}>
-                <div className="card-block">
-                  <h4 className="card-title">{animal.name}</h4>
-                  <p>Species: {animal.species_name}</p>
-                  <p>Location: {animal.location}</p>
-                  <p>Last seen: {animal.seen_at}</p>
-                  <button
-                    className="btn btn-outline-danger"
-                    type="button"
-                    onClick={() => this.props.removeAnimal(animal.id)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="btn btn-outline-info"
-                    type="button"
-                  >
-                    Modify
-                  </button>
-                </div>
-              </div>
+          <div>
+            {this.props.animals ? this.props.animals
+              .filter(animal => animal.name.includes(this.state.inputValue) ||
+                animal.location.includes(this.state.inputValue) ||
+                animal.species_name.includes(this.state.inputValue) ||
+                animal.seen_at.includes(this.state.inputValue))
+              .map(animal => (
+                <ListItem
+                  key={animal.id}
+                  animal={animal}
+                  removeAnimal={this.props.removeAnimal}
+                />
             )) : ''}
           </div>
         </div>

@@ -27,6 +27,22 @@ export function removeAnimal(id) {
   })
 }
 
+export function modifyAnimal({ name, location, speciesId, time, id }) {
+  return new Promise((resolve, reject) => {
+    database('animals')
+      .where({ id })
+      .returning('*')
+      .update({
+        name,
+        location,
+        species_id: speciesId,
+        seen_at: time,
+      })
+      .then(animals => findById(animals[0].id).then(resolve).catch(reject))
+      .catch(reject)
+  })
+}
+
 export function createNewAnimal({ name, location, speciesId, time }) {
   return new Promise((resolve, reject) => {
     database('animals').returning('*').insert({
