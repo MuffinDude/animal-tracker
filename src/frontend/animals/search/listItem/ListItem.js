@@ -13,15 +13,27 @@ class ListItem extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { isModifyingAnimal } = this.props
+    if (isModifyingAnimal && !nextProps.isModifyingAnimal) {
+      if (nextProps.error) {
+        this.setState({ isOpen: true })
+      } else {
+        this.setState({ isOpen: false })
+      }
+    }
+  }
+
   toggleOpenState() {
     this.setState({ isOpen: !this.state.isOpen })
   }
 
   render() {
     const { animal } = this.props
+    const { isOpen } = this.state
     return (
-      <div className="card p-3">
-        {this.state.isOpen ? (
+      <div className="card p-3 mb-3">
+        {isOpen ? (
           <ModificationForm
             animalName={animal.name}
             animalSpecies={animal.species_name}
@@ -47,11 +59,11 @@ class ListItem extends Component {
       }
         <div>
           <button
-            className="btn btn-outline-info mt-3"
+            className={`btn btn-outline-${isOpen ? 'danger' : 'info'} mt-3`}
             type="button"
             onClick={this.toggleOpenState}
           >
-            Modify
+            {`${isOpen ? 'Cancel' : 'Modify'}`}
           </button>
         </div>
       </div>
@@ -69,11 +81,17 @@ ListItem.propTypes = {
   }).isRequired,
   removeAnimal: PropTypes.func.isRequired,
   modifyAnimal: PropTypes.func.isRequired,
+  isModifyingAnimal: PropTypes.bool.isRequired,
 }
 
 const mapDispatchToProps = dispatch => ({
   modifyAnimal: animal => dispatch(modifyAnimal(animal)),
 })
+
+const mapStoreToProps = store => ({
+  isModifyingAnimal: store.animals.isModifyingAnimal,
+})
+
 
 ListItem.defaultProps = {
   animals: PropTypes.shape({
@@ -81,4 +99,4 @@ ListItem.defaultProps = {
   }),
 }
 
-export default connect(animal => animal, mapDispatchToProps)(ListItem)
+export default connect(mapStoreToProps, mapDispatchToProps)(ListItem)

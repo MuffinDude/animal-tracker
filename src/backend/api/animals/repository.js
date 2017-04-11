@@ -11,7 +11,7 @@ export function findById(id) {
 export function findAllAnimals() {
   return database.select('animals.*', 'species.name as species_name')
     .from('animals')
-    .whereNot('visible', false)
+    .whereNot('animals.visible', false)
     .innerJoin('species', 'animals.species_id', 'species.id')
 }
 

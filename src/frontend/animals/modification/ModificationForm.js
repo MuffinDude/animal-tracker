@@ -35,7 +35,9 @@ class ModificationForm extends Component {
     if (!this.state.selectedSpecies && nextProps.species) {
       this.setState({ selectedSpecies: nextProps.species[0].name, submitError: false })
     }
-    if (this.props.isCreatingAnimal && !nextProps.isCreatingAnimal) {
+    const { isCreatingAnimal, isModifyingAnimal } = this.props
+    if ((isCreatingAnimal && !nextProps.isCreatingAnimal) ||
+      (isModifyingAnimal && !nextProps.isModifyingAnimal)) {
       if (nextProps.error) {
         this.setState({ success: false })
       } else {
@@ -199,6 +201,7 @@ ModificationForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   error: PropTypes.number, // eslint-disable-line
   isCreatingAnimal: PropTypes.bool.isRequired,
+  isModifyingAnimal: PropTypes.bool.isRequired,
   animalName: PropTypes.string,
   animalId: PropTypes.number,
   animalSpecies: PropTypes.string,
@@ -219,6 +222,7 @@ ModificationForm.defaultProps = {
 const mapStoreToProps = store => ({
   species: store.animals.species,
   isCreatingAnimal: store.animals.isCreatingAnimal,
+  isModifyingAnimal: store.animals.isModifyingAnimal,
   error: store.animals.error,
 })
 

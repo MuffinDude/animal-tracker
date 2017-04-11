@@ -2,11 +2,12 @@ import {
   SEARCH_ANIMALS_RESULT,
   ANIMALS_SPECIES_RESULT,
   REMOVE_ANIMAL,
-  MODIFY_ANIMAL,
+  MODIFIED_ANIMAL,
   CREATED_NEW_ANIMAL,
   ERROR,
   IS_FETCHING,
   IS_CREATING_ANIMAL,
+  IS_MODIFYING_ANIMAL,
 } from './actions'
 
 const initialState = {
@@ -52,17 +53,16 @@ export default function animals(state = initialState, result) {
         isFetching: false,
       }
     }
-    case MODIFY_ANIMAL: {
-      console.log('modify')
+    case MODIFIED_ANIMAL: {
       return {
         ...state,
         error: null,
         animals: state.animals.map((animal) => {
-          console.log('function')
           if (animal.id === result.animal.id) return result.animal
           return animal
         }),
         isFetching: false,
+        isModifyingAnimal: false,
       }
     }
     case ERROR: {
@@ -71,6 +71,7 @@ export default function animals(state = initialState, result) {
         error: result.error,
         isFetching: false,
         isCreatingAnimal: false,
+        isModifyingAnimal: false,
       }
     }
     case IS_FETCHING: {
@@ -83,6 +84,12 @@ export default function animals(state = initialState, result) {
       return {
         ...state,
         isCreatingAnimal: true,
+      }
+    }
+    case IS_MODIFYING_ANIMAL: {
+      return {
+        ...state,
+        isModifyingAnimal: true,
       }
     }
     default:
