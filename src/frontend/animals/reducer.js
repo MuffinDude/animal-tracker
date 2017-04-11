@@ -13,6 +13,7 @@ import {
 const initialState = {
   isFetching: false,
   isCreatingAnimal: false,
+  isModifyingAnimal: false,
   isRemovingAnimal: false,
   error: null,
   species: null,

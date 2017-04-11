@@ -28,16 +28,16 @@ class SearchAnimalForm extends Component {
           <input
             type="text"
             placeholder="Search..."
-            onChange={event => this.setState({ inputValue: event.target.value })}
+            onChange={event => this.setState({ inputValue: event.target.value.toLowerCase() })}
           />
         </div>
         <div className="container">
           <div>
             {this.props.animals ? this.props.animals
-              .filter(animal => animal.name.includes(this.state.inputValue) ||
-                animal.location.includes(this.state.inputValue) ||
-                animal.species_name.includes(this.state.inputValue) ||
-                animal.seen_at.includes(this.state.inputValue))
+              .filter(animal => animal.name.toLowerCase().includes(this.state.inputValue) ||
+                animal.location.toLowerCase().includes(this.state.inputValue) ||
+                animal.species_name.toLowerCase().includes(this.state.inputValue) ||
+                animal.seen_at.toLowerCase().includes(this.state.inputValue))
               .map(animal => (
                 <ListItem
                   key={animal.id}
