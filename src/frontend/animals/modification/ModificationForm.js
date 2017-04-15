@@ -8,19 +8,14 @@ import './ModificationForm.css'
 class ModificationForm extends Component {
   constructor(props) {
     super(props)
-    this.onTimeChange = this.onTimeChange.bind(this)
     this.onAnimalNameChange = this.onAnimalNameChange.bind(this)
     this.onAnimalLocationChange = this.onAnimalLocationChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.state = {
       selectedSpecies: this.props.animalSpecies,
-      timeError: false,
       animalName: this.props.animalName,
       animalNameError: false,
       animalId: this.props.animalId,
-      animalLocation: this.props.animalLocation,
-      animalLocationError: false,
-      sightingTime: this.props.animalLastSeen || new Date().toISOString().substr(0, 16),
       submitError: false,
       success: false,
     }
@@ -28,7 +23,7 @@ class ModificationForm extends Component {
 
   componentDidMount() {
     if (!this.props.species) this.props.getAllSpecies()
-    else this.setState({ selectedSpecies: this.props.species[0].name }) // eslint-disable-line
+    else this.setState({ selectedSpecies: this.props.animalSpecies || this.props.species[0].name }) // eslint-disable-line
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,26 +38,6 @@ class ModificationForm extends Component {
       } else {
         this.setState({ success: true })
       }
-    }
-  }
-
-  onTimeChange(event) {
-    const timeInMilliseconds = new Date(event.target.value).getTime()
-    const maxTimeInMilliseconds = Date.now()
-    const minTimeInMilliseconds = new Date('2010-01-01T00:00:00').getTime()
-    if (isNaN(timeInMilliseconds) ||
-      timeInMilliseconds > maxTimeInMilliseconds ||
-      timeInMilliseconds < minTimeInMilliseconds
-    ) {
-      this.setState({ timeError: true, submitError: false, success: false })
-    } else {
-      this.setState({
-        timeError: false,
-        sightingTime:
-        timeInMilliseconds,
-        submitError: false,
-        success: false,
-      })
     }
   }
 
@@ -89,16 +64,12 @@ class ModificationForm extends Component {
   onSubmit(event) {
     event.preventDefault()
     this.setState({ success: false })
-    const { timeError, animalNameError, animalLocationError } = this.state
-    const { animalName, animalLocation, sightingTime, animalId } = this.state
-    const hasError = timeError || animalNameError || animalLocationError
+    const { animalName, animalId, animalNameError } = this.state
 
-    if (!hasError && animalName.length && animalLocation.length) {
+    if (!animalNameError && animalName.length) {
       this.props.onSubmit({
         name: animalName,
         species: this.state.selectedSpecies,
-        location: animalLocation,
-        time: sightingTime,
         id: animalId,
       })
     } else {
@@ -108,16 +79,7 @@ class ModificationForm extends Component {
 
   render() {
     const { species } = this.props
-    const {
-      submitError,
-      selectedSpecies,
-      timeError,
-      animalName,
-      animalNameError,
-      animalLocation,
-      animalLocationError,
-      success,
-    } = this.state
+    const { submitError, selectedSpecies, animalName, animalNameError, success } = this.state
     return (
       <div>
         <form>
@@ -126,6 +88,7 @@ class ModificationForm extends Component {
             <input
               type="text"
               className={`form-control ${animalNameError ? 'has-warning' : ''}`}
+              disabled={!this.props.canModifyName}
               id="animalNameInput"
               placeholder="Name..."
               value={animalName}
@@ -140,55 +103,37 @@ class ModificationForm extends Component {
               onChange={value => this.setState({ selectedSpecies: value })}
             />
           </div>
-          <div className={`form-group ${animalLocationError ? 'has-warning' : ''}`}>
-            <label className="form-control-label" htmlFor="locationInput">Location</label>
-            <input
-              type="text"
-              className={`form-control ${animalLocationError ? 'has-warning' : ''}`}
-              id="locationInput"
-              placeholder="Location..."
-              value={animalLocation}
-              onChange={this.onAnimalLocationChange}
-            />
-          </div>
-          <div className={`form-group ${timeError ? 'has-warning' : ''}`}>
-            <label className="form-control-label" htmlFor="timeInput">Date and time</label>
-            <input
-              type="datetime-local"
-              className={`form-control ${timeError ? 'has-warning' : ''}`}
-              id="timeInput"
-              defaultValue={this.state.sightingTime}
-              onChange={this.onTimeChange}
-            />
-          </div>
           {submitError ? (
-            <div className="alert alert-warning">
-              You have not filled the form
-            </div>
+            <div className="alert alert-warning">You have not filled the form</div>
           ) : ''}
           {success ? (
-            <div className="alert alert-success">
-              Created new animal!
-            </div>
+            <div className="alert alert-success">Created new animal!</div>
           ) : ''}
           {this.props.isCreatingAnimal ? (
-            <div className="alert alert-info">
-              Creating animal...
-            </div>
+            <div className="alert alert-info">Creating animal...</div>
           ) : ''}
           {this.props.error ? (
-            <div className="alert alert-danger">
-              {this.props.error}
-            </div>
+            <div className="alert alert-danger">{this.props.error}</div>
           ) : ''}
-          <button
-            type="submit"
-            disabled={submitError}
-            className="btn btn-primary"
-            onClick={this.onSubmit}
-          >
-            Submit
-          </button>
+          <div className="d-flex justify-content-end">
+            {!this.props.canModifyName ? (
+              <button
+                type="submit"
+                className="btn btn-danger"
+                onClick={this.props.onCancel}
+              >
+                Cancel
+              </button>
+            ) : ''}
+            <button
+              type="submit"
+              disabled={submitError}
+              className="btn btn-success ml-3"
+              onClick={this.onSubmit}
+            >
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     )
@@ -205,8 +150,8 @@ ModificationForm.propTypes = {
   animalName: PropTypes.string,
   animalId: PropTypes.number,
   animalSpecies: PropTypes.string,
-  animalLocation: PropTypes.string,
-  animalLastSeen: PropTypes.string,
+  canModifyName: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func,
 }
 
 ModificationForm.defaultProps = {
@@ -215,8 +160,7 @@ ModificationForm.defaultProps = {
   animalName: '',
   animalId: null,
   animalSpecies: null,
-  animalLocation: '',
-  animalLastSeen: null,
+  onCancel: null,
 }
 
 const mapStoreToProps = store => ({

@@ -5,7 +5,7 @@ import ModificationForm from '../modification'
 import { actions } from '../'
 
 const CreateAnimalForm = ({ createNewAnimal }) => (
-  <ModificationForm onSubmit={createNewAnimal} />
+  <ModificationForm canModifyName onSubmit={createNewAnimal} />
 )
 
 CreateAnimalForm.propTypes = {

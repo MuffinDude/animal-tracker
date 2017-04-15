@@ -29,11 +29,11 @@ export function getAllSpecies() {
   }).then(checkStatus).then(response => response.json())
 }
 
-export function createNewAnimal({ name, location, time, species }) {
+export function createNewAnimal({ name, species }) {
   return fetch('/api/v1/animals', {
     method: POST,
     headers,
-    body: JSON.stringify({ name, location, time, species }),
+    body: JSON.stringify({ name, species }),
   }).then(checkStatus).then(response => response.json())
 }
 
@@ -51,10 +51,40 @@ export function removeAnimal(id) {
   }).then(checkStatus).then(response => response.json())
 }
 
-export function modifyAnimal({ name, location, species, time, id }) {
+export function modifyAnimal({ id, species }) {
   return fetch(`/api/v1/animals/${id}`, {
     method: PUT,
     headers,
-    body: JSON.stringify({ name, location, species, time, id }),
+    body: JSON.stringify({ id, species }),
+  }).then(checkStatus).then(response => response.json())
+}
+
+export function addLocation(animalId, timeStamp, name) {
+  return fetch(`/api/v1/animals/${animalId}/locations`, {
+    method: POST,
+    headers,
+    body: JSON.stringify({ timeStamp, name }),
+  }).then(checkStatus).then(response => response.json())
+}
+
+export function getLocations(animalId) {
+  return fetch(`/api/v1/animals/${animalId}/locations`, {
+    method: GET,
+    headers,
+  }).then(checkStatus).then(response => response.json())
+}
+
+export function modifyLocation(animalId, locationId, timeStamp, name) {
+  return fetch(`/api/v1/animals/${animalId}/locations/${locationId}`, {
+    method: PUT,
+    headers,
+    body: JSON.stringify({ timeStamp, name }),
+  }).then(checkStatus).then(response => response.json())
+}
+
+export function deleteLocation(animalId, locationId) {
+  return fetch(`/api/v1/animals/${animalId}/locations/${locationId}`, {
+    method: DELETE,
+    headers,
   }).then(checkStatus).then(response => response.json())
 }

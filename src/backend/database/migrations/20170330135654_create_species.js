@@ -2,7 +2,7 @@ exports.up = knex => (
   knex.raw(`
     CREATE TABLE IF NOT EXISTS species (
       id SERIAL UNIQUE,
-      name VARCHAR(255) NOT NULL
+      name VARCHAR(255) NOT NULL UNIQUE
     );
 
     ALTER TABLE species ADD CONSTRAINT PK_species_id

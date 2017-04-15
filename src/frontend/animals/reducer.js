@@ -69,7 +69,7 @@ export default function animals(state = initialState, result) {
     case ERROR: {
       return {
         ...state,
-        error: result.error,
+        error: result.error.response.status,
         isFetching: false,
         isCreatingAnimal: false,
         isModifyingAnimal: false,
