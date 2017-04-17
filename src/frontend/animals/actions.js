@@ -15,7 +15,7 @@ export function getAllSpecies() {
     dispatch({ type: IS_FETCHING })
     ApiService.getAllSpecies()
       .then(species => dispatch({ type: ANIMALS_SPECIES_RESULT, species }))
-      .catch(error => dispatch({ type: ERROR, error }))
+      .catch(error => dispatch({ type: ERROR, error: error.response.status }))
   }
 }
 
@@ -24,7 +24,7 @@ export function getAllAnimals() {
     dispatch({ type: IS_FETCHING })
     ApiService.getAllAnimals()
       .then(animals => dispatch({ type: SEARCH_ANIMALS_RESULT, animals }))
-      .catch(error => dispatch({ type: ERROR, error }))
+      .catch(error => dispatch({ type: ERROR, error: error.response.status }))
   }
 }
 

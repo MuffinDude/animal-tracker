@@ -44,9 +44,17 @@ class Animal extends Component {
 
   render() {
     const { animal, locations } = this.props
+    const isVisible = () => {
+      if (!!this.props.locationFilter.length
+        && !!locations[animal.id]
+        && !locations[animal.id]
+        .filter(location => location.name.includes(this.props.locationFilter)).length) return false
+      return true
+    }
+
     const { isOpen, isAddingOrModifyingLocation, finishedFetchingLocation } = this.state
     return (
-      <div className="card p-3 mb-3">
+      <div className="card p-3 mb-3" style={isVisible() ? {} : ({ display: 'none' })}>
         {isOpen ? (
           <ModificationForm
             canModifyName={false}
@@ -64,6 +72,8 @@ class Animal extends Component {
             </div>
             {locations && locations[animal.id] ? (
               <Locations
+                hasSpeciesFilter={this.props.hasSpeciesFilter}
+                locationFilter={this.props.locationFilter}
                 locations={locations[animal.id]}
                 submitLocation={(timeStamp, location, locationId) => {
                   this.props.modifyLocation(animal.id, locationId, timeStamp, location)
@@ -135,6 +145,8 @@ Animal.propTypes = {
   deleteLocation: PropTypes.func.isRequired,
   modifyLocation: PropTypes.func.isRequired,
   isFetchingLocation: PropTypes.bool.isRequired,
+  locationFilter: PropTypes.string.isRequired,
+  hasSpeciesFilter: PropTypes.bool.isRequired,
 }
 
 Animal.defaultProps = {

@@ -6,9 +6,10 @@ import Animal from './animal'
 class AnimalList extends Component {
   constructor(props) {
     super(props)
-    this.onInputChange = this.onInputChange.bind(this)
     this.state = {
-      inputValue: '',
+      nameInput: '',
+      speciesInput: '',
+      locationInput: '',
     }
   }
 
@@ -16,23 +17,32 @@ class AnimalList extends Component {
     if (!this.props.animals) this.props.getAllAnimals()
   }
 
-  onInputChange(event) {
-    this.setState({ inputValue: event.target.value })
-  }
-
   render() {
     return (
       <div>
         <input
           type="text"
-          placeholder="Search..."
-          onChange={event => this.setState({ inputValue: event.target.value.toLowerCase() })}
+          placeholder="Search by name"
+          onChange={event => this.setState({ nameInput: event.target.value.toLowerCase() })}
+        />
+        <input
+          type="text"
+          placeholder="Search by species"
+          onChange={event => this.setState({ speciesInput: event.target.value.toLowerCase() })}
+        />
+        <input
+          type="text"
+          placeholder="Search by location"
+          onChange={event => this.setState({ locationInput: event.target.value.toLowerCase() })}
         />
         <div className="py-3">
           {this.props.animals ? this.props.animals
-            .filter(animal => animal.name.toLowerCase().includes(this.state.inputValue))
+            .filter(animal => animal.name.toLowerCase().includes(this.state.nameInput))
+            .filter(animal => animal.species_name.toLowerCase().includes(this.state.speciesInput))
             .map(animal => (
               <Animal
+                hasSpeciesFilter={!!this.state.speciesInput.length}
+                locationFilter={this.state.locationInput}
                 key={animal.id}
                 animal={animal}
                 removeAnimal={this.props.removeAnimal}
