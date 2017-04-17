@@ -12,7 +12,7 @@ exports.up = knex => (
     ALTER TABLE locations ADD CONSTRAINT FK_locations_animal_id
       FOREIGN KEY (animal_id)
       REFERENCES animals (id)
-      ON UPDATE Cascade
+      ON DELETE Cascade
     ;
 
     ALTER TABLE locations ADD CONSTRAINT PK_locations_id

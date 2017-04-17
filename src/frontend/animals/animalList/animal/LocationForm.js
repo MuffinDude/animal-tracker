@@ -14,9 +14,16 @@ class LocationForm extends Component {
   constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
+    this.emojis = emojis.sort(() => 0.5 - Math.random()).slice(0, 5)
+    const seenAt = () => {
+      if (this.props.seenAt) {
+        return moment(new Date(this.props.seenAt)).format('DD.MM.YYYY HH:mm')
+      }
+      return moment().format('DD.MM.YYYY HH:mm')
+    }
     this.state = {
       location: this.props.location || '',
-      seenAt: moment(new Date(this.props.seenAt)).format('DD.MM.YYYY HH:mm') || moment().format('DD.MM.YYYY HH:mm'),
+      seenAt: seenAt(),
       isModifying: false,
     }
   }
@@ -30,42 +37,49 @@ class LocationForm extends Component {
   }
 
   render() {
-    const { cancel } = this.props
+    const { cancel, isForAdding } = this.props
     const { location, seenAt, isModifying } = this.state
+    const type = () => {
+      if (isForAdding) return '-danger'
+      if (isModifying) return '-primary'
+      return ''
+    }
     return (
-      <div className="card card-outline-success p-3 my-2">
+      <div className={`card card-outline${type()} p-2 my-2`}>
         <form className="form">
           <div className="d-flex justify-content-between" style={{ width: '100%' }}>
-            <div className="form-group">
-              <label htmlFor="locationInput">Location</label>
+            <div className="form-group row mx-0">
               <div>
-                <input
-                  type="text"
-                  className="form-control"
-                  disabled={!isModifying && !cancel}
-                  id="locationInput"
-                  placeholder="Tallinn"
-                  value={location}
-                  onChange={event => this.setState({ location: event.target.value })}
-                />
+                <label htmlFor="locationInput">Location</label>
+                <div className="mr-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled={!isModifying && !cancel}
+                    id="locationInput"
+                    placeholder="Tallinn"
+                    value={location}
+                    onChange={event => this.setState({ location: event.target.value })}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="form-group">
-              <label htmlFor="dateTimeInput">Seen at</label>
-              <div>
-                <input
-                  type="text"
-                  className="form-control"
-                  disabled={!isModifying && !cancel}
-                  id="dateTimeInput"
-                  value={seenAt}
-                  onChange={event => this.setState({ seenAt: event.target.value })}
-                />
+              <div className="mr-3">
+                <label htmlFor="dateTimeInput">Seen at</label>
+                <div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled={!isModifying && !cancel}
+                    id="dateTimeInput"
+                    value={seenAt}
+                    onChange={event => this.setState({ seenAt: event.target.value })}
+                  />
+                </div>
               </div>
             </div>
             <div className="form-group">
               <label htmlFor="formButtons">
-                {emojis.sort(() => 0.5 - Math.random()).slice(0, 5)}
+                {this.emojis}
               </label>
               <div className="d-flex flex-row" id="formButtons">
                 {
@@ -113,6 +127,7 @@ LocationForm.propTypes = {
   location: PropTypes.string,
   seenAt: PropTypes.string,
   locationId: PropTypes.number,
+  isForAdding: PropTypes.bool,
 }
 
 LocationForm.defaultProps = {
@@ -121,6 +136,7 @@ LocationForm.defaultProps = {
   location: null,
   seenAt: null,
   locationId: null,
+  isForAdding: false,
 }
 
 export default LocationForm

@@ -14,6 +14,7 @@ class Animal extends Component {
     this.state = {
       isOpen: false,
       isAddingOrModifyingLocation: false,
+      finishedFetchingLocation: false,
     }
   }
 
@@ -22,7 +23,12 @@ class Animal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isModifyingAnimal } = this.props
+    const { isModifyingAnimal, isFetchingLocation } = this.props
+    if (isFetchingLocation && !nextProps.isFetchingLocation) {
+      this.setState({ finishedFetchingLocation: true })
+    } else {
+      this.setState({ finishedFetchingLocation: false })
+    }
     if (isModifyingAnimal && !nextProps.isModifyingAnimal) {
       if (nextProps.error) {
         this.setState({ isOpen: true })
@@ -38,7 +44,7 @@ class Animal extends Component {
 
   render() {
     const { animal, locations } = this.props
-    const { isOpen, isAddingOrModifyingLocation } = this.state
+    const { isOpen, isAddingOrModifyingLocation, finishedFetchingLocation } = this.state
     return (
       <div className="card p-3 mb-3">
         {isOpen ? (
@@ -60,17 +66,18 @@ class Animal extends Component {
               <Locations
                 locations={locations[animal.id]}
                 submitLocation={(timeStamp, location, locationId) => {
-                  console.log(timeStamp, location, locationId)
                   this.props.modifyLocation(animal.id, locationId, timeStamp, location)
                 }}
                 deleteLocation={locationId => this.props.deleteLocation(animal.id, locationId)}
               />
             ) : ''}
-            {isAddingOrModifyingLocation ? (
+            {isAddingOrModifyingLocation && !finishedFetchingLocation ? (
               <LocationForm
-                submitLocation={(timeStamp, location) => (
+                isForAdding
+                submitLocation={(timeStamp, location) => {
                   this.props.submitLocation(animal.id, timeStamp, location)
-                )}
+                  this.setState({ isAddingOrModifyingLocation: !isAddingOrModifyingLocation })
+                }}
                 cancel={() => (
                   this.setState({ isAddingOrModifyingLocation: !isAddingOrModifyingLocation })
                 )}
@@ -82,7 +89,10 @@ class Animal extends Component {
                   className="btn btn-primary mr-3"
                   type="button"
                   onClick={() => (
-                    this.setState({ isAddingOrModifyingLocation: !isAddingOrModifyingLocation })
+                    this.setState({
+                      isAddingOrModifyingLocation: !isAddingOrModifyingLocation,
+                      finishedFetchingLocation: false,
+                    })
                   )}
                 >
                   Add location
@@ -124,6 +134,7 @@ Animal.propTypes = {
   getLocations: PropTypes.func.isRequired,
   deleteLocation: PropTypes.func.isRequired,
   modifyLocation: PropTypes.func.isRequired,
+  isFetchingLocation: PropTypes.bool.isRequired,
 }
 
 Animal.defaultProps = {
@@ -145,6 +156,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStoreToProps = store => ({
   isModifyingAnimal: store.animals.isModifyingAnimal,
   locations: store.locations.locations,
+  isFetchingLocation: store.locations.isFetching,
 })
 
 export default connect(mapStoreToProps, mapDispatchToProps)(Animal)

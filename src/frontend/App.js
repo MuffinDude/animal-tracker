@@ -9,7 +9,7 @@ const App = () => (
   <Router>
     <div className="container-fluid py-5">
       <div className="row">
-        <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
+        <div className="col-12 col-md-10 offset-md-1 col-xl-6 offset-xl-3">
           <div className="d-flex justify-content-between">
             <h1>Animl</h1>
             <div className="ml-auto">
@@ -20,7 +20,7 @@ const App = () => (
         </div>
       </div>
       <div className="row">
-        <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
+        <div className="col-12 col-md-10 offset-md-1 col-xl-6 offset-xl-3">
           <Route exact path="/" render={() => (<Redirect to="/animals" />)} />
           <Route path="/new" component={CreateAnimalForm} />
           <Route path="/animals" component={AnimalList} />

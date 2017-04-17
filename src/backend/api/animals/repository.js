@@ -20,7 +20,11 @@ export function removeAnimal(id) {
     database('animals').where({ id })
       .returning('*')
       .update({ deleted: true })
-      .then(animals => findById(animals[0].id).then(resolve).catch(reject))
+      .then(animals => findById(animals[0].id).then(animal => (
+        database('animals').where({ id }).del()
+          .then(() => resolve(animal))
+          .catch(reject)
+      )).catch(reject))
       .catch(reject)
   })
 }
