@@ -45,10 +45,12 @@ class Animal extends Component {
   render() {
     const { animal, locations } = this.props
     const isVisible = () => {
-      if (!!this.props.locationFilter.length
-        && !!locations[animal.id]
+      if (!!this.props.locationFilter.length && !!locations[animal.id]
         && !locations[animal.id]
-        .filter(location => location.name.includes(this.props.locationFilter)).length) return false
+          .filter(location => location.name.toLowerCase()
+            .includes(this.props.locationFilter)).length) {
+        return false
+      }
       return true
     }
 
