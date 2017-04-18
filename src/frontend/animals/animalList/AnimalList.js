@@ -20,21 +20,35 @@ class AnimalList extends Component {
   render() {
     return (
       <div>
-        <input
-          type="text"
-          placeholder="Search by name"
-          onChange={event => this.setState({ nameInput: event.target.value.toLowerCase() })}
-        />
-        <input
-          type="text"
-          placeholder="Search by species"
-          onChange={event => this.setState({ speciesInput: event.target.value.toLowerCase() })}
-        />
-        <input
-          type="text"
-          placeholder="Search by location"
-          onChange={event => this.setState({ locationInput: event.target.value.toLowerCase() })}
-        />
+        <div className="form form-inline row">
+          <div className="col-4">
+            <input
+              className="form-control"
+              style={{ width: '100%' }}
+              type="text"
+              placeholder="Search by name"
+              onChange={event => this.setState({ nameInput: event.target.value.toLowerCase() })}
+            />
+          </div>
+          <div className="col-4">
+            <input
+              className="form-control"
+              style={{ width: '100%' }}
+              type="text"
+              placeholder="Search by species"
+              onChange={event => this.setState({ speciesInput: event.target.value.toLowerCase() })}
+            />
+          </div>
+          <div className="col-4">
+            <input
+              className="form-control"
+              style={{ width: '100%' }}
+              type="text"
+              placeholder="Search by location"
+              onChange={event => this.setState({ locationInput: event.target.value.toLowerCase() })}
+            />
+          </div>
+        </div>
         <div className="py-3">
           {this.props.animals ? this.props.animals
             .filter(animal => animal.name.toLowerCase().includes(this.state.nameInput))

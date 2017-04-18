@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 
 import Select from '../select'
 import { getAllSpecies } from '../actions'
-import './ModificationForm.css'
 
 class ModificationForm extends Component {
   constructor(props) {
